@@ -1,0 +1,33 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "node dist/index.js",
+    "start": "npm run build:live",
+    "build": "./node_modules/.bin/tsc ./index.ts",
+    "build:live": "./node_modules/.bin/nodemon --exec ./node_modules/.bin/ts-node -- ./index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "kcors": "^2.2.1",
+    "koa": "^2.0.0-alpha.8",
+    "koa-better-body": "^3.0.2",
+    "koa-router": "^7.2.1",
+    "mongodb": "^2.2.30",
+    "redis": "^2.7.1"
+  },
+  "devDependencies": {
+    "@types/mongodb": "^2.2.7",
+    "@types/redis": "^2.6.0",
+    "@types/koa": "^2.0.39",
+    "@types/koa-router": "^7.0.22",
+    "@types/node": "^8.0.8",
+    "nodemon": "^1.11.0",
+    "ts-node": "^3.2.0",
+    "typescript": "^2.4.1"
+  }
+}

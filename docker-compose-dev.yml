@@ -1,0 +1,68 @@
+version: "3.1"
+
+services:
+  proxy:
+    build:
+      context: .
+      dockerfile: docker/proxy/Dockerfile-dev
+    expose:
+      - "80"
+    ports:
+      - "80:80"
+    networks:
+      - nodejs_network
+    restart: on-failure
+
+  static:
+    image: nginx:alpine
+    expose:
+      - "80"
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./src/public:/usr/share/nginx/html:ro"
+    networks:
+      - nodejs_network
+    restart: on-failure
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/nodejs/Dockerfile-dev
+    volumes:
+      - "./src/server:/var/app:rw"
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+    networks:
+      - nodejs_network
+    restart: on-failure
+
+    depends_on:
+      - "mongo"
+      - "session"
+
+  mongo:
+    image: "mongo"
+    volumes:
+      - "./storages/mongo:/data/db"
+    expose:
+      - "27017"
+    ports:
+      - "27017:27017"
+    networks:
+      - nodejs_network
+    restart: on-failure
+
+  session:
+    image: "redis:alpine"
+    volumes:
+      - "./storages/redis:/data"
+    networks:
+      - nodejs_network
+    restart: on-failure
+
+networks:
+  nodejs_network:
+    driver: "bridge"
